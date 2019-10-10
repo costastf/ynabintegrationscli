@@ -31,12 +31,13 @@ Main code for ynabintegrationscli.
 
 """
 
+import argparse
+import json
 import logging
 import logging.config
-import json
-import argparse
-import coloredlogs
 
+import coloredlogs
+from ynabintegrationslib.ynabintegrationslib import Service
 
 __author__ = '''Costas Tyfoxylos <costas.tyf@gmail.com>'''
 __docformat__ = '''google'''
@@ -62,15 +63,16 @@ def get_arguments():
     Returns the args as parsed from the argsparser.
     """
     # https://docs.python.org/3/library/argparse.html
-    parser = argparse.ArgumentParser(description='''A tool to  upload transactions from an abn amro account and credit card to ynab provided a configuration file and valid session cookies for an abn amro connection''')
-    parser.add_argument('--log-config',
-                        '-l',
+    parser = argparse.ArgumentParser(description='''A tool to  upload transactions from an abn amro account and
+    credit card to ynab provided a configuration file and valid session cookies for an abn amro connection''')
+    parser.add_argument('--config',
+                        '-c',
                         action='store',
-                        dest='logger_config',
-                        help='The location of the logging config json file',
+                        dest='config',
+                        help='The location of the config json file',
                         default='')
     parser.add_argument('--log-level',
-                        '-L',
+                        '-l',
                         help='Provide the log level. Defaults to info.',
                         dest='log_level',
                         action='store',
@@ -80,22 +82,6 @@ def get_arguments():
                                  'warning',
                                  'error',
                                  'critical'])
-
-    # examples:
-    parser.add_argument('--long', '-s',
-                        choices=['a', 'b'],
-                        dest='parameter_long',
-                        action='store',
-                        help='Describe the parameter here',
-                        default='a',
-                        type=str,
-                        required=True)
-    parser.add_argument('--feature',
-                        dest='feature',
-                        action='store_true')
-    parser.add_argument('--no-feature',
-                        dest='feature',
-                        action='store_false')
     args = parser.parse_args()
     return args
 
@@ -137,8 +123,20 @@ def main():
     the script is run on command line.
     """
     args = get_arguments()
-    setup_logging(args.log_level, args.logger_config)
-    # Main code goes here
+    setup_logging(args.log_level)
+    configuration = json.loads(open(args.config).read())
+    service = Service(configuration.get('ynab_token'))
+    for contract in configuration.get('contracts'):
+        service.register_contract(contract.get('name'),
+                                  contract.get('bank'),
+                                  contract.get('type'),
+                                  contract.get('authentication'))
+    for account in configuration.get('accounts'):
+        service.register_account(account.get('name'),
+                                 account.get('budget_name'),
+                                 account.get('ynab_name'),
+                                 account.get('iban'))
+    service.upload_latest_transactions()
 
 
 if __name__ == '__main__':

@@ -45,7 +45,7 @@ setup(
                    'console_scripts': [
                        # enable this to automatically generate a script in /usr/local/bin called myscript that points to your
                        #  ynabintegrationscli.ynabintegrationscli:main method
-                       # 'myscript = ynabintegrationscli.ynabintegrationscli:main'
+                       'ynab-sync = ynabintegrationscli.ynabintegrationscli:main'
                    ]},
     classifiers=[
         'Development Status :: 4 - Beta',
