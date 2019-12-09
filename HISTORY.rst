@@ -13,3 +13,9 @@ History
 ------------------
 
 * initial version with no schema validation and no error checking
+
+
+0.1.1 (09-12-2019)
+------------------
+
+* Bumped dependency
