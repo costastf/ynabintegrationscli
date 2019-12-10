@@ -19,3 +19,9 @@ History
 ------------------
 
 * Bumped dependency
+
+
+0.1.2 (10-12-2019)
+------------------
+
+* Added some logging and bumped dependencies.
