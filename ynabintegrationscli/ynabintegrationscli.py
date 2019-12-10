@@ -127,11 +127,13 @@ def main():
     configuration = json.loads(open(args.config).read())
     service = Service(configuration.get('ynab_token'))
     for contract in configuration.get('contracts'):
+        LOGGER.info('Registering contract "%s" for bank "%s"', contract.get('name'), contract.get('bank'))
         service.register_contract(contract.get('name'),
                                   contract.get('bank'),
                                   contract.get('type'),
                                   contract.get('authentication'))
     for account in configuration.get('accounts'):
+        LOGGER.info('Registering account "%s"', account.get('ynab_name'))
         service.register_account(account.get('name'),
                                  account.get('budget_name'),
                                  account.get('ynab_name'),

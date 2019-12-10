@@ -23,5 +23,5 @@ toml = "~=0.10.0"
 
 [packages]
 coloredlogs = "~=10.0"
-ynabintegrationslib = "~=0.1.1"
+ynabintegrationslib = "~=0.1.3"
 
