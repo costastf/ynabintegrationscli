@@ -8,4 +8,4 @@
 # Please use Pipfile to update the requirements.
 #
 coloredlogs~=10.0
-ynabintegrationslib~=0.1.3
+ynabintegrationslib~=0.1.4
