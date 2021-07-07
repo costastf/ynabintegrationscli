@@ -31,3 +31,9 @@ History
 ------------------
 
 * Fixed a bug with a new header cookie implemented by ICS.
+
+
+0.1.4 (07-07-2021)
+------------------
+
+* Bumped dependencies.
